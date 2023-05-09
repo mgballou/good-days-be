@@ -8,7 +8,8 @@ const morgan = require('morgan')
 const cors = require('cors')
 
 // require routers
-
+const daysRouter = require('./routes/days-router')
+const entriesRouter = require('./routes/entries-router')
 
 // config
 
@@ -26,7 +27,8 @@ app.use(morgan("dev"))
 
 
 /// router middleware
-
+app.use('/days', daysRouter)
+app.use('/', entriesRouter);
 
 
 // test  home route
