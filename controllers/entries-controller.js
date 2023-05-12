@@ -20,7 +20,10 @@ async function destroy (req, res, next){
         const foundDay = await Day.findOne({
             'entries._id': req.params.id
         })
-        res.status(200).json(await foundDay.entries.remove(req.params.id))
+
+        foundDay.entries.remove(req.params.id)
+        
+        res.status(200).json(await foundDay.save())
         
     } catch (error) {
         res.status(400).json({ error: error.message })

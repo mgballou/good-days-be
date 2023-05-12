@@ -28,9 +28,11 @@ async function create(req, res, next) {
 
 async function update(req, res, next) {
     try {
+        console.log(req.params.id)
+        console.log(req.body)
         
 
-        res.status(200).json(await Day.findByIdAndUpdate(req.params.id, req.body,  {new:true}))
+        res.status(200).json(await Day.findByIdAndUpdate(req.params.id, req.body, {new:true}))
     } catch (error) {
         res.status(400).json({ error: error.message })
 
