@@ -6,7 +6,7 @@ const {requireToken} = require('../middleware/auth')
 
 
 //index
-router.get('/', daysCtrl.index)
+router.get('/', requireToken, daysCtrl.index)
 
 //create
 router.post('/', requireToken, daysCtrl.create)
