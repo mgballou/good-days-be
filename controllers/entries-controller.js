@@ -1,4 +1,5 @@
 const { Day } = require('../models')
+const { handleValidateOwnership } = require('../middleware/auth')
 
 
 async function create(req, res, next){

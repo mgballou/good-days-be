@@ -10,6 +10,7 @@ const cors = require('cors')
 // require routers
 const daysRouter = require('./routes/days-router')
 const entriesRouter = require('./routes/entries-router')
+const authRouter = require('./routes/auth-router')
 
 // config
 
@@ -29,7 +30,7 @@ app.use(morgan("dev"))
 /// router middleware
 app.use('/days', daysRouter)
 app.use('/', entriesRouter);
-
+app.use('/auth', authRouter);
 
 // test  home route
 app.get('/', (req,res)=>res.send('hello react'))

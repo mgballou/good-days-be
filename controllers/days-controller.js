@@ -1,5 +1,5 @@
 const { Day } = require('../models')
-
+const { handleValidateOwnership } = require('../middleware/auth')
 
 
 // index
