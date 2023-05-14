@@ -1,9 +1,13 @@
 const { Day } = require('../models')
+const { handleValidateOwnership } = require('../middleware/auth')
 
 
 async function create(req, res, next){
     try {
         const foundDay = await Day.findById(req.params.id)
+        //handle validate ownership
+        handleValidateOwnership(req, foundDay)
+
         foundDay.entries.push(req.body)
 
 
@@ -20,6 +24,8 @@ async function destroy (req, res, next){
         const foundDay = await Day.findOne({
             'entries._id': req.params.id
         })
+         //handle validate ownership
+        handleValidateOwnership(req, foundDay)
 
         foundDay.entries.remove(req.params.id)
         
