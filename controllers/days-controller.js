@@ -15,6 +15,7 @@ async function index(req, res, next) {
 }
 
 async function create(req, res, next) {
+    
     try {
         req.body.date = new Date(req.body.date)
         req.body.owner = req.user._id
