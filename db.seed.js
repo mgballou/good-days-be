@@ -43,8 +43,9 @@ const dates = ['2023/05/13', '2023/05/12', '2023/05/11', '2023/05/10', '2023/05/
 
 const entriesUrl = "https://fakerapi.it/api/v1/texts?_quantity=60&_characters=160"
 
-async function pullEntries() {
+async function seedEntries() {
     try {
+        const allDays = await Day.find()
         const entriesData = await axios.get(entriesUrl) 
         
         let entriesArray = entriesData.data.data.map(entry => {
@@ -52,7 +53,13 @@ async function pullEntries() {
                 post: entry.content,
                 mood: Math.floor(Math.random() * 10) + 1
             }})
-        return entriesArray
+       entriesArray.forEach(async (entry) => {
+        console.log(allDays)
+        let chosenDay = allDays[Math.floor(Math.random() * 15) + 1]
+        chosenDay.entries.push(entry)
+        await chosenDay.save()
+
+       })
 
     } catch (error) {
         console.log(error)
@@ -61,30 +68,31 @@ async function pullEntries() {
 }
 
 
-async function seedDB() {
-    let userInfo = []
-    const entries = await pullEntries()
+async function seedUsersAndDays() {
 
-
-    demoUsers.forEach(async (user, idx) => {
+    try { 
+        
+        demoUsers.forEach(async (user, idx) => {
         const newUser = await User.create(user)
-        const dateIds = []
+        
         dates.forEach(async (date) => {
             const createdDay = await Day.create({
                 date: new Date(date),
                 owner: newUser._id
             })
-            
-            dateIds.push(createdDay._id)
-
         })
-        const someEntries = entries.slice(0,20 * (idx+1))
-
-       
+ 
     })
-    return userInfo
+        
+    } catch (error) {
+        console.log(error)
+        
+    }
 }
   
+
+// seedUsersAndDays()
+seedEntries()
 
 
 
