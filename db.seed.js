@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const { MONGODB_URI } = process.env
 const { Day, User } = require('./models')
 const axios = require('axios')
-
+const bcrypt = require('bcrypt')
 
 // establish DB connection
 mongoose.set('strictQuery', true);
@@ -41,7 +41,7 @@ const demoUsers = [
 const dates = ['2023/05/13', '2023/05/12', '2023/05/11', '2023/05/10', '2023/05/09']
 
 
-const entriesUrl = "https://fakerapi.it/api/v1/texts?_quantity=60&_characters=160"
+const entriesUrl = "https://fakerapi.it/api/v1/texts?_quantity=200&_characters=45"
 
 async function seedEntries() {
     try {
@@ -73,6 +73,12 @@ async function seedUsersAndDays() {
     try { 
         
         demoUsers.forEach(async (user, idx) => {
+            const salt = await bcrypt.genSalt(10)
+            const passwordHash = await bcrypt.hash(user.password, salt)
+    
+            const pwCache = user.password
+    
+            user.password = passwordHash
         const newUser = await User.create(user)
         
         dates.forEach(async (date) => {
